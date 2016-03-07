@@ -13,10 +13,23 @@ class LoginViewController: UIViewController {
 
     @IBOutlet weak var passwordField: UITextField!
     @IBOutlet weak var usernameField: UITextField!
+    
+    var window: UIWindow?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
+        view.addGestureRecognizer(tap)
+
         // Do any additional setup after loading the view.
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+       
+        if PFUser.currentUser() != nil {
+            self.performSegueWithIdentifier("loginSegue", sender: nil)
+        }
     }
 
     override func didReceiveMemoryWarning() {
@@ -26,7 +39,6 @@ class LoginViewController: UIViewController {
     
     @IBAction func signInButton(sender: AnyObject) {
         PFUser.logInWithUsernameInBackground(usernameField.text!, password: passwordField.text!) { (user: PFUser?, error: NSError?) -> Void in
-            print("logged in")
             self.performSegueWithIdentifier("loginSegue", sender: nil)
         }
     }
@@ -36,12 +48,17 @@ class LoginViewController: UIViewController {
         newUser.password = passwordField.text
         newUser.signUpInBackgroundWithBlock { (success: Bool, error: NSError?) -> Void in
             if success {
-                print("created user")
                 self.performSegueWithIdentifier("loginSegue", sender: nil)
             } else {
                 print(error?.localizedDescription)
             }
         }
+    }
+    
+    
+    func dismissKeyboard() {
+        //Causes the view (or one of its embedded text fields) to resign the first responder status.
+        view.endEditing(true)
     }
 
     /*

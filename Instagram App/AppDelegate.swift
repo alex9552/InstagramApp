@@ -26,11 +26,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             })
         )
         
-        if PFUser.currentUser() != nil {
-            let storyboard = UIStoryboard(name: "Main", bundle: nil)
-            let vc = storyboard.instantiateViewControllerWithIdentifier("InstagamNavigationController")
-            window?.rootViewController = vc
-        }
+//        if PFUser.currentUser() != nil {
+//            let storyboard = UIStoryboard(name: "Main", bundle: nil)
+//            let vc = storyboard.instantiateViewControllerWithIdentifier("InstagramNavigationController")
+//            window?.rootViewController = vc
+//        }
         
         return true
     }
